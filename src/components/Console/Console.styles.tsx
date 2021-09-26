@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
     border: 1px solid rgb(58, 58, 58);
     border-top-left-radius: 0.5rem;
     border-top-right-radius: 0.5rem;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.5);
 `;
 
 export const Container = styled.div`
