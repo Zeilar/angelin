@@ -76,7 +76,7 @@ export function Console() {
         return () => {
             clearTimeout(timeout);
         };
-    }, []);
+    }, []); // Include defaultDomains data here that will be async and run this useEffect if data is truthy
 
     return (
         <Styles.Wrapper>
