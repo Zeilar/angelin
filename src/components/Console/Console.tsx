@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { AnimatedCharacter } from "../Home";
 import * as Styles from "./Console.styles";
 import { IDomain } from "./types";
 
@@ -86,12 +85,12 @@ export function Console() {
                     <Styles.User>guest@angelin</Styles.User>:
                     <Styles.Path>~</Styles.Path>${" "}
                     {"navigator".split("").map((character, i) => (
-                        <AnimatedCharacter
+                        <Styles.AnimatedCharacter
                             key={i}
                             style={{ animationDelay: `${1000 + 100 * i}ms` }}
                         >
                             {character}
-                        </AnimatedCharacter>
+                        </Styles.AnimatedCharacter>
                     ))}
                 </span>
                 {animationOver && (
@@ -123,14 +122,14 @@ export function Console() {
                                 {`curl ${activeSelection.url}`
                                     .split("")
                                     .map((character, i) => (
-                                        <AnimatedCharacter
+                                        <Styles.AnimatedCharacter
                                             key={i}
                                             style={{
                                                 animationDelay: `${100 * i}ms`,
                                             }}
                                         >
                                             {character}
-                                        </AnimatedCharacter>
+                                        </Styles.AnimatedCharacter>
                                     ))}
                             </>
                         )}
