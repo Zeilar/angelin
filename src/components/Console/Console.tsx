@@ -26,9 +26,14 @@ export function Console() {
         defaultDomains[0]
     );
     const [animationOver, setAnimationOver] = useState(false);
+    const [hasPicked, setHasPicked] = useState(false);
 
     useEffect(() => {
         function keyDownHandler(e: KeyboardEvent) {
+            if (!animationOver) {
+                return;
+            }
+
             if (e.key === "ArrowDown") {
                 const nextDomain = defaultDomains.find(
                     (domain) => domain.id === activeSelection.id + 1
@@ -44,7 +49,7 @@ export function Console() {
                     setActiveSelection(previousDomain);
                 }
             } else if (e.key === "Enter") {
-                window.location.href = activeSelection.url;
+                setHasPicked(true);
             }
         }
 
@@ -53,7 +58,15 @@ export function Console() {
         return () => {
             document.removeEventListener("keydown", keyDownHandler);
         };
-    }, [activeSelection.id, activeSelection.url]);
+    }, [activeSelection.id, activeSelection.url, animationOver]);
+
+    useEffect(() => {
+        if (hasPicked) {
+            setTimeout(() => {
+                window.location.href = activeSelection.url;
+            }, 4000);
+        }
+    }, [hasPicked, activeSelection.url]);
 
     useEffect(() => {
         // Also include loading here maybe
@@ -104,6 +117,23 @@ export function Console() {
                                 ))}
                             </Styles.List>
                         </nav>
+                        {hasPicked && (
+                            <>
+                                <br />
+                                {`curl ${activeSelection.url}`
+                                    .split("")
+                                    .map((character, i) => (
+                                        <AnimatedCharacter
+                                            key={i}
+                                            style={{
+                                                animationDelay: `${100 * i}ms`,
+                                            }}
+                                        >
+                                            {character}
+                                        </AnimatedCharacter>
+                                    ))}
+                            </>
+                        )}
                     </>
                 )}
             </Styles.Container>
