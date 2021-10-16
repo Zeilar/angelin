@@ -23,6 +23,11 @@ const domains: IDomain[] = [
         name: "Radio",
         url: "https://radio.angelin.dev",
     },
+    {
+        id: 5,
+        name: "Cinema",
+        url: "https://cinema.angelin.dev",
+    },
 ];
 
 export function Console() {
