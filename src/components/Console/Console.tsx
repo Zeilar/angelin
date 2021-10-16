@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import * as Styles from "./Console.styles";
 import { IDomain } from "./types";
 
-const defaultDomains: IDomain[] = [
+const domains: IDomain[] = [
     {
         id: 1,
-        name: "TPH",
+        name: "The Programmer Hangout",
         url: "https://tph.angelin.dev",
     },
     {
@@ -18,30 +18,33 @@ const defaultDomains: IDomain[] = [
         name: "Repcalc",
         url: "https://repcalc.angelin.dev",
     },
+    {
+        id: 4,
+        name: "Radio",
+        url: "https://radio.angelin.dev",
+    },
 ];
 
 export function Console() {
-    const [activeSelection, setActiveSelection] = useState<IDomain>(
-        defaultDomains[0]
-    );
+    const [activeSelection, setActiveSelection] = useState<IDomain>(domains[0]);
     const [animationOver, setAnimationOver] = useState(false);
     const [hasPicked, setHasPicked] = useState(false);
 
     useEffect(() => {
         function keyDownHandler(e: KeyboardEvent) {
-            if (!animationOver) {
+            if (!animationOver || hasPicked) {
                 return;
             }
 
             if (e.key === "ArrowDown") {
-                const nextDomain = defaultDomains.find(
+                const nextDomain = domains.find(
                     (domain) => domain.id === activeSelection.id + 1
                 );
                 if (nextDomain) {
                     setActiveSelection(nextDomain);
                 }
             } else if (e.key === "ArrowUp") {
-                const previousDomain = defaultDomains.find(
+                const previousDomain = domains.find(
                     (domain) => domain.id === activeSelection.id - 1
                 );
                 if (previousDomain) {
@@ -57,13 +60,13 @@ export function Console() {
         return () => {
             document.removeEventListener("keydown", keyDownHandler);
         };
-    }, [activeSelection.id, activeSelection.url, animationOver]);
+    }, [activeSelection.id, activeSelection.url, animationOver, hasPicked]);
 
     useEffect(() => {
         if (hasPicked) {
             setTimeout(() => {
                 window.location.href = activeSelection.url;
-            }, 4000);
+            }, activeSelection.url.length * 150);
         }
     }, [hasPicked, activeSelection.url]);
 
@@ -75,7 +78,7 @@ export function Console() {
         return () => {
             clearTimeout(timeout);
         };
-    }, []); // Include defaultDomains data here that will be async and run this useEffect if data is truthy
+    }, []); // Include domains data here that will be async and run this useEffect if data is truthy
 
     return (
         <Styles.Wrapper>
@@ -84,55 +87,60 @@ export function Console() {
                 <span>
                     <Styles.User>guest@angelin</Styles.User>:
                     <Styles.Path>~</Styles.Path>${" "}
-                    {"navigator".split("").map((character, i) => (
-                        <Styles.AnimatedCharacter
-                            key={i}
-                            style={{ animationDelay: `${1000 + 100 * i}ms` }}
-                        >
-                            {character}
-                        </Styles.AnimatedCharacter>
-                    ))}
+                    {!hasPicked &&
+                        "navigator".split("").map((character, i) => (
+                            <Styles.AnimatedCharacter
+                                key={i}
+                                style={{
+                                    animationDelay: `${1000 + 100 * i}ms`,
+                                }}
+                            >
+                                {character}
+                            </Styles.AnimatedCharacter>
+                        ))}
                 </span>
                 {animationOver && (
                     <>
-                        <div>Pick a domain you want to visit.</div>
-                        <div>
-                            Use the up and down arrow keys to navigate the list.
-                        </div>
-                        <br />
-                        <nav>
-                            <Styles.List>
-                                {defaultDomains.map((domain, i) => (
-                                    <Styles.ListItem
-                                        key={i}
-                                        className={
-                                            domain.id === activeSelection.id
-                                                ? "active"
-                                                : undefined
-                                        }
-                                    >
-                                        {domain.name}
-                                    </Styles.ListItem>
-                                ))}
-                            </Styles.List>
-                        </nav>
-                        {hasPicked && (
+                        {!hasPicked && (
                             <>
+                                <div>Pick a domain you want to visit.</div>
+                                <div>
+                                    Use the up and down arrow keys to navigate
+                                    the list.
+                                </div>
                                 <br />
-                                {`curl ${activeSelection.url}`
-                                    .split("")
-                                    .map((character, i) => (
-                                        <Styles.AnimatedCharacter
-                                            key={i}
-                                            style={{
-                                                animationDelay: `${100 * i}ms`,
-                                            }}
-                                        >
-                                            {character}
-                                        </Styles.AnimatedCharacter>
-                                    ))}
+                                <nav>
+                                    <Styles.List>
+                                        {domains.map((domain, i) => (
+                                            <Styles.ListItem
+                                                key={i}
+                                                className={
+                                                    domain.id ===
+                                                    activeSelection.id
+                                                        ? "active"
+                                                        : undefined
+                                                }
+                                            >
+                                                {domain.name}
+                                            </Styles.ListItem>
+                                        ))}
+                                    </Styles.List>
+                                </nav>
                             </>
                         )}
+                        {hasPicked &&
+                            `curl ${activeSelection.url}`
+                                .split("")
+                                .map((character, i) => (
+                                    <Styles.AnimatedCharacter
+                                        key={i}
+                                        style={{
+                                            animationDelay: `${100 * i}ms`,
+                                        }}
+                                    >
+                                        {character}
+                                    </Styles.AnimatedCharacter>
+                                ))}
                     </>
                 )}
             </Styles.Container>
