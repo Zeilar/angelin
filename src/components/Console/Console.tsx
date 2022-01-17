@@ -2,31 +2,32 @@ import { useState, useEffect } from "react";
 import * as Styles from "./Console.styles";
 import { IDomain } from "./types";
 
+// Put this in API service
 const domains: IDomain[] = [
     {
         id: 1,
+        name: "SyncedTube",
+        url: "http://syncedtube.com",
+    },
+    {
+        id: 2,
         name: "The Programmer Hangout",
         url: "https://tph.angelin.dev",
     },
     {
-        id: 2,
-        name: "Blog",
-        url: "https://blog.angelin.dev",
-    },
-    {
         id: 3,
-        name: "Repcalc",
-        url: "https://repcalc.angelin.dev",
-    },
-    {
-        id: 4,
         name: "Radio",
         url: "https://radio.angelin.dev",
     },
     {
+        id: 4,
+        name: "Blog",
+        url: "https://blog.angelin.dev",
+    },
+    {
         id: 5,
-        name: "Cinema",
-        url: "https://cinema.angelin.dev",
+        name: "Repcalc",
+        url: "https://repcalc.angelin.dev",
     },
 ];
 
@@ -70,7 +71,7 @@ export function Console() {
     useEffect(() => {
         if (hasPicked) {
             setTimeout(() => {
-                window.location.href = activeSelection.url;
+                window.location.replace(activeSelection.url);
             }, activeSelection.url.length * 150);
         }
     }, [hasPicked, activeSelection.url]);

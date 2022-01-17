@@ -7,7 +7,8 @@ export const Wrapper = styled.div`
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
-    width: 800px;
+    max-width: 800px;
+    width: 100%;
     height: 500px;
     border: 1px solid rgb(58, 58, 58);
     border-top-left-radius: 0.5rem;
