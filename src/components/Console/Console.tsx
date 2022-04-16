@@ -11,21 +11,26 @@ const domains: IDomain[] = [
     },
     {
         id: 2,
+        name: "@zeilar/hooks",
+        url: "https://hooks.angelin.dev",
+    },
+    {
+        id: 3,
         name: "The Programmer Hangout",
         url: "https://tph.angelin.dev",
     },
     {
-        id: 3,
+        id: 4,
         name: "Radio",
         url: "https://radio.angelin.dev",
     },
     {
-        id: 4,
+        id: 5,
         name: "Blog",
         url: "https://blog.angelin.dev",
     },
     {
-        id: 5,
+        id: 6,
         name: "Repcalc",
         url: "https://repcalc.angelin.dev",
     },
